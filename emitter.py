@@ -64,16 +64,20 @@ class EventEmitter(object):
             return wrapper
         return decorator
 
-    def emit(self, selector):
-        ev_log.debug('\n{self}.emit({selector})'.format( self=repr(self),
-                                                         selector=selector ))
+    def _handle_selector(self, selector):
         my_evt = Event(selector)
 
         for evt_sel in self.callbacks:
             sel_evt = Event(evt_sel)
-            ev_log.debug("-> matched: {selector}".format(selector=sel_evt.selector))
 
             if sel_evt.is_selected_by(my_evt):
+                ev_log.debug("-> matched: {selector}".format(selector=sel_evt.selector))
+
                 for callback in self.callbacks[evt_sel]:
                     ev_log.debug("-> caused: {callback}".format(callback=str(callback)))
                     callback(my_evt)
+
+    def emit(self, selector):
+        ev_log.debug('\n{self}.emit({selector})'.format( self=repr(self),
+                                                         selector=selector ))
+        self._handle_selector(selector)

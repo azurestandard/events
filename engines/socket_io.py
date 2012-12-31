@@ -1,6 +1,7 @@
 from socketio.namespace import BaseNamespace
 from socketIO_client import SocketIO, BaseNamespace as BaseNamespace_Client
 import logging
+from gevent import sleep, spawn
 from events.emitter import Event, EventEmitter
 from socketio import socketio_manage
 
@@ -14,6 +15,7 @@ class EventNamespace(BaseNamespace):
         super(EventNamespace, self).__init__(*args, **kwargs)
 
     def emit_subscribed_event(self, evt):
+        print 'event %s' % evt.selector
         self.emit('event', evt.selector)
 
     def on_subscribe(self, evt_selector):
@@ -33,10 +35,6 @@ def namespace_factory(event_emitter):
 
 
 class RemoteNamespace(BaseNamespace_Client):
-    def __init__(self, socket, *args, **kwargs):
-        self.socket = socket
-        super(RemoteNamespace, self).__init__(*args, **kwargs)
-
     def on_event(self, selector):
         evt = Event(selector)
         evt.emit_on(self.socket)
@@ -46,16 +44,21 @@ class SocketIOEventEmitter(EventEmitter):
     def __init__(self, namespace, *args, **kwargs):
         self.namespace = namespace
         super(SocketIOEventEmitter, self).__init__(*args, **kwargs)
-    
-    def handle_request(self, request):
-        io_ns = namespace_factory(event_emitter=self)
-        return socketio_manage(request.environ, {self.namespace: io_ns}, request)
 
     def remote(self, url, subscriptions):
-        url, port = url.rsplit(':', 1)
+        try:
+            url, port = url.rsplit(':', 1)
+        except ValueError:
+            port = 80
+
         socket = SocketIO(url, int(port), RemoteNamespace)
 
         for selector in subscriptions:
             socket.emit('subscribe', selector)
 
         self.remotes.push(socket)
+
+
+def handle_socketio_request(request, emitters):
+    ns = {e.namespace: namespace_factory(event_emitter=e) for e in emitters}
+    return socketio_manage(request.environ, ns, request)
