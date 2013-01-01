@@ -26,7 +26,6 @@ setup(
                        'gevent_websocket>=0.3.6',
                        'greenlet>=0.4.0',
                        'hiredis>=0.1.1',
-                       'lxml>=3.0.1',
                        'psycopg2>=2.4.5',
                        'redis>=2.7.2',
                        'socketIO_client>=0.3',
