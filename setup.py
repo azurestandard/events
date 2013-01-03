@@ -14,9 +14,12 @@ setup(
     url='https://github.com/aquameta/events',
     long_description=open('README.md', 'r').read(),
 
+
     packages=[ 'events',
                'events.engines' ],
 
+    package_data={'events': ['static/*.js']},
+        
     zip_safe=False,
     dependency_links=[ 'http://github.com/abourget/gevent-socketio/tarball/a1e422d2e11f0e6db3ff71bfd691dd1b7f69abe6#egg=gevent_socketio'
                        'https://github.com/downloads/SiteSupport/gevent/gevent-1.0rc2.tar.gz#egg=gevent' ],
