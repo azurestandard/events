@@ -24,4 +24,4 @@ class RedisEventEmitter(EventEmitter):
         ev_log.debug('\n{self}.emit({selector})'.format( self=repr(self),
                                                          selector=selector ))
 
-        self.connection.publish('events', selector)
+        self.connection.publish(self.queue_key, selector)
