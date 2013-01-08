@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='aquameta-events',
-    version='0.1',
+    version='0.2',
     description='A set of bindings to various event systems which applies a uniform interface to each.',
     author='Aquameta',
     author_email='developers@aquameta.com',
@@ -19,7 +19,7 @@ setup(
                'events.engines' ],
 
     package_data={'events': ['static/events/*.js']},
-        
+
     zip_safe=False,
     dependency_links=[ 'http://github.com/abourget/gevent-socketio/tarball/a1e422d2e11f0e6db3ff71bfd691dd1b7f69abe6#egg=gevent_socketio'
                        'https://github.com/downloads/SiteSupport/gevent/gevent-1.0rc2.tar.gz#egg=gevent' ],
