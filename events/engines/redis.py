@@ -14,7 +14,7 @@ class RedisEventEmitter(EventEmitter):
         self.pubsub.subscribe(queue_key)
         self.queue_key = queue_key
         self.pollster = spawn(self.wait_for_events)
-    
+
     def wait_for_events(self):
         for message in self.pubsub.listen():
             if message['type'] == 'message':
@@ -24,4 +24,4 @@ class RedisEventEmitter(EventEmitter):
         ev_log.debug('\n{self}.emit({selector})'.format( self=repr(self),
                                                          selector=selector ))
 
-        self.connection.publish('events', 'selector')
+        self.connection.publish('events', selector)
