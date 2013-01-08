@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='aquameta-events',
-    version='0.2',
+    version='0.3',
     description='A set of bindings to various event systems which applies a uniform interface to each.',
     author='Aquameta',
     author_email='developers@aquameta.com',
