@@ -42,10 +42,10 @@ define(['events/event'], function(Event) {
         };
     };
 
-    EventEmitter.prototype.remote = function(url, subscriptions) {
+    EventEmitter.prototype.remote = function(url, subscriptions, connect_options) {
         var self = this;
 
-        var socket = io.connect(url);
+        var socket = io.connect(url, connect_options);
 
         socket.on('event', function(data) {
             var evt = new Event(data);
