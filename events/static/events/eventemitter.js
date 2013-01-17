@@ -31,16 +31,16 @@ define(['events/event'], function(Event) {
             }
 
             self.callbacks[selector].push(callback);
-        }
-    }
+        };
+    };
 
     EventEmitter.prototype.off = function(selector) {
         var self = this;
 
         return function() {
             self.callbacks[selector] = [];
-        }
-    }
+        };
+    };
 
     EventEmitter.prototype.remote = function(url, subscriptions) {
         var self = this;
@@ -59,7 +59,7 @@ define(['events/event'], function(Event) {
         });
 
         this.remotes.push(socket);
-    }
+    };
 
     return EventEmitter;
 });

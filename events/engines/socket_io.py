@@ -1,7 +1,6 @@
 from socketio.namespace import BaseNamespace
 from socketIO_client import SocketIO, BaseNamespace as BaseNamespace_Client
 import logging
-from gevent import sleep, spawn
 from events.emitter import Event, EventEmitter
 from socketio import socketio_manage
 
