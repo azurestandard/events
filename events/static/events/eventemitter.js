@@ -31,21 +31,21 @@ define(['events/event'], function(Event) {
             }
 
             self.callbacks[selector].push(callback);
-        }
-    }
+        };
+    };
 
     EventEmitter.prototype.off = function(selector) {
         var self = this;
 
         return function() {
             self.callbacks[selector] = [];
-        }
-    }
+        };
+    };
 
-    EventEmitter.prototype.remote = function(url, subscriptions) {
+    EventEmitter.prototype.remote = function(url, subscriptions, connect_options) {
         var self = this;
 
-        var socket = io.connect(url);
+        var socket = io.connect(url, connect_options);
 
         socket.on('event', function(data) {
             var evt = new Event(data);
@@ -59,7 +59,7 @@ define(['events/event'], function(Event) {
         });
 
         this.remotes.push(socket);
-    }
+    };
 
     return EventEmitter;
 });
