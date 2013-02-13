@@ -29,9 +29,8 @@ class PGEventEmitter(EventEmitter):
 
         def decorator(callback):
             if selector not in self.callbacks:
-                sql = "select subscribe('"+ selector +"')"
                 c = self.connection.cursor()
-                c.execute(sql);
+                c.execute("select subscribe('%s')", (selector,))
                 self.connection.commit()
 
             parent_wrapper = parent_decorator(callback)
